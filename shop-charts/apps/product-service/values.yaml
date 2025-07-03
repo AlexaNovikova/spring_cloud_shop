@@ -1,0 +1,21 @@
+service:
+  port: 8080
+
+replicaCount: 1
+
+menu_service:
+  image: alexadubinina87/product-service:11
+  config:
+    db:
+      url: jdbc:postgresql://otus-postgres-postgres:5432/product
+      secretName: product-service-pg-secret
+      username: user
+      password: password
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1024Mi"

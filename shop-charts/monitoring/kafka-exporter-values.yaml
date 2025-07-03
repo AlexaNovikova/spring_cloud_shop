@@ -1,0 +1,11 @@
+annotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "9308"
+  prometheus.io/path: "/metrics"
+kafkaServer:
+  - my-kafka-controller-0.my-kafka-controller-headless.otus.svc.cluster.local:9092
+  - my-kafka-controller-1.my-kafka-controller-headless.otus.svc.cluster.local:9092
+  - my-kafka-controller-2.my-kafka-controller-headless.otus.svc.cluster.local:9092
+service:
+  labels:
+    "app.kubernetes.io/name": kafka-exporter

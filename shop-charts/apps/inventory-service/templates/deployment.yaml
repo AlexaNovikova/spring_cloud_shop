@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.inventory_service.image }}
+          env:
+            - name: SERVER_PORT
+              value: {{ .Values.service.port | quote }}
+            - name: SPRING_DATASOURCE_URL
+              value: {{ .Values.inventory_service.config.db.url | quote }}
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.inventory_service.config.db.secretName }}
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.inventory_service.config.db.secretName }}
+                  key: password
+
+            - name: SPRING_FLYWAY_URL
+              value: {{ .Values.inventory_service.config.db.url | quote }}
+            - name: SPRING_FLYWAY_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.inventory_service.config.db.secretName }}
+                  key: username
+            - name: SPRING_FLYWAY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.inventory_service.config.db.secretName }}
+                  key: password
+
+            - name: SPRING_DATA_REDIS_HOST
+              value: {{ .Values.inventory_service.config.redis.host | quote }}
+
+            - name: SPRING_DATA_REDIS_PORT
+              value: {{ .Values.inventory_service.config.redis.port | quote }}
+
+            - name: SPRING_DATA_REDIS_PASSWORD
+              value: {{ .Values.inventory_service.config.redis.password | quote }}
+
+            - name: SPRING_KAFKA_BOOTSTRAP-SERVERS
+              value: {{ .Values.inventory_service.config.kafka.bootstrapServers | quote }}
+
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            failureThreshold: 6
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            failureThreshold: 6
+          args:
+            - "--spring.config.additional-location=/config/config.yml"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Release.Name }}-configmap

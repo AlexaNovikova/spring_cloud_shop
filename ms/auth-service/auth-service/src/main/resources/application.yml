@@ -1,0 +1,67 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/otus
+    schema: auth
+    username: user
+    password: password
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  flyway:
+    url: jdbc:postgresql://localhost:5432/otus
+    schema: auth
+    user: user
+    password: password
+    locations:
+      - classpath:db
+    schemas:
+      - auth
+
+db:
+  url: jdbc:postgresql://localhost:5432/otus
+  schema: auth
+  username:  user
+  password: password
+
+jwt:
+  secret: 387940124e629097d9b3b557b6edd868ee39d76b3f29b334f264a05c6eed75f3f90e0c275000851c5f11e4bad794b88867e34180e9f8e8534f28ed30c5b275ab
+  expirationInMs: 600000
+  refreshSecret: 387940124e629097d9b3b557b6edd868ee39d76b3f29b334f264a05c6eed75f3f90e0c275000851c5f11e4bad794b88867e34180e9f8e8534f28ed30c5b275ab
+  refreshExpirationInMs: -1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, metrics
+  metrics:
+    enable:
+      timed: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    ru.otus: DEBUG

@@ -1,0 +1,52 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: notification-service
+  mail:
+    host: smtp.mail.ru
+    port: 465
+    username: alexadubinina@mail.ru
+    password: mail-password
+    protocol: smtp
+    properties:
+     mail:
+       smtp:
+         from: alexadubinina@mail.ru
+         auth: true
+         ssl:
+           enable: true
+    default-encoding: UTF-8
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notification-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, metrics
+  metrics:
+    enable:
+      timed: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+logging:
+  level:
+    ru.otus: DEBUG

@@ -1,0 +1,19 @@
+service:
+  port: 8080
+
+replicaCount: 1
+
+auth_gateway:
+  image: alexadubinina87/auth-gateway:12
+  config:
+    jwt:
+      secretName: auth-jwt-secret
+      expirationInMs: 600000
+      value: 387940124e629097d9b3b557b6edd868ee39d76b3f29b334f264a05c6eed75f3f90e0c275000851c5f11e4bad794b88867e34180e9f8e8534f28ed30c5b275ab
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1024Mi"

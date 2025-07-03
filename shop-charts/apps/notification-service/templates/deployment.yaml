@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.notification_service.image }}
+          env:
+            - name: SERVER_PORT
+              value: {{ .Values.service.port | quote }}
+
+            - name: SPRING_KAFKA_BOOTSTRAP-SERVERS
+              value: {{ .Values.notification_service.config.kafka.bootstrapServers | quote }}
+
+            - name: SPRING_MAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notification_service.config.mail.secretName }}
+                  key: username
+
+            - name: SPRING_MAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notification_service.config.mail.secretName }}
+                  key: password
+
+            - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_FROM
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.notification_service.config.mail.secretName }}
+                  key: username
+
+            - name: SPRING_MAIL_HOST
+              value: {{ .Values.notification_service.config.mail.host | quote }}
+
+            - name: SPRING_MAIL_PORT
+              value: {{ .Values.notification_service.config.mail.port | quote }}
+
+            - name: SPRING_MAIL_PROTOCOL
+              value: {{ .Values.notification_service.config.mail.protocol | quote }}
+
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            failureThreshold: 6
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            failureThreshold: 6
+          args:
+            - "--spring.config.additional-location=/config/config.yml"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Release.Name }}-configmap

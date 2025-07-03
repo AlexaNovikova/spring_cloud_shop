@@ -1,0 +1,24 @@
+service:
+  port: 8080
+
+replicaCount: 1
+
+notification_service:
+  image: alexadubinina87/notification-service:11
+  config:
+    kafka:
+      bootstrapServers: my-kafka.otus.svc.cluster.local:9092
+    mail:
+      host: smtp.mail.ru
+      port: 465
+      protocol: smtp
+      secretName: notification-service-email-secret
+      username: alexadubinina87@mail.ru
+      password: password
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1024Mi"

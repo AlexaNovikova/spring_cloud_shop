@@ -1,0 +1,29 @@
+service:
+  port: 8080
+
+replicaCount: 1
+
+order_service:
+  image: alexadubinina87/order-service:11
+  config:
+    db:
+      url: jdbc:postgresql://otus-postgres-postgres:5432/order
+      secretName: order-service-pg-secret
+      username: user
+      password: password
+    cart:
+      ttl: 60
+    redis:
+      host: redis
+      port: 6379
+      password: password
+    kafka:
+      bootstrapServers: my-kafka.otus.svc.cluster.local:9092
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1024Mi"

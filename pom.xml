@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.1</version>
+        <relativePath/>
+    </parent>
+    <groupId>ru.otus</groupId>
+    <artifactId>otus-architecture</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>otus-architecture</name>
+    <description>OTUS architecture project</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>parent-pom</module>
+        <module>parent-pom/lib-parent</module>
+        <module>parent-pom/gw-parent</module>
+        <module>parent-pom/ms-parent</module>
+        <module>parent-pom/db-parent</module>
+
+        <module>common</module>
+
+        <module>lib/lib-exception</module>
+        <module>lib/lib-redis</module>
+        <module>lib/lib-kafka</module>
+        <module>lib/lib-ctx</module>
+
+        <module>lib/auth-service-api/auth-shared</module>
+
+        <module>lib/inventory-service/inventory-service-api</module>
+        <module>lib/inventory-service/inventory-service-client</module>
+
+        <module>lib/product-service/product-service-api</module>
+        <module>lib/product-service/product-service-client</module>
+
+        <module>lib/notification-service/notification-service-api</module>
+        <module>lib/notification-service/notification-service-client</module>
+
+        <module>lib/payment-service/payment-service-api</module>
+        <module>lib/payment-service/payment-service-client</module>
+
+        <module>ms/auth-gateway/auth-gateway</module>
+
+        <module>ms/auth-service/auth-service-db</module>
+        <module>ms/auth-service/auth-service</module>
+
+        <module>ms/inventory-service/inventory-service-db</module>
+        <module>ms/inventory-service/inventory-service</module>
+
+        <module>ms/product-service/product-service-db</module>
+        <module>ms/product-service/product-service</module>
+
+        <module>ms/order-service/order-service-db</module>
+        <module>ms/order-service/order-service</module>
+
+        <module>ms/payment-service/payment-service-db</module>
+        <module>ms/payment-service/payment-service</module>
+
+        <module>ms/notification-service/notification-service</module>
+
+    </modules>
+</project>

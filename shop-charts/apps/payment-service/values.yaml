@@ -1,0 +1,23 @@
+service:
+  port: 8080
+
+replicaCount: 1
+
+payment_service:
+  image: alexadubinina87/payment-service:11
+  config:
+    db:
+      url: jdbc:postgresql://otus-postgres-postgres:5432/payment
+      secretName: payment-service-pg-secret
+      username: user
+      password: password
+    kafka:
+      bootstrapServers: my-kafka.otus.svc.cluster.local:9092
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1024Mi"

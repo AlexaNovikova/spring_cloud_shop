@@ -1,0 +1,12 @@
+postgresql:
+  database: otus
+  username: otus_user
+  password: NVB1c6hB6vF7
+  image: postgres:15.7
+  service:
+    type: NodePort
+    port: 5432
+    nodePort: 30002
+  persistence:
+    enabled: true
+    size: 1Gi

@@ -1,0 +1,27 @@
+service:
+  port: 8080
+
+replicaCount: 1
+
+auth_service:
+  image: alexadubinina87/auth-service:11
+  config:
+    db:
+      url: jdbc:postgresql://otus-postgres-postgres:5432/auth
+      secretName: auth-service-pg-secret
+      username: user
+      password: password
+    jwt:
+      secretName: auth-jwt-secret
+      expirationInMs: 600000
+      refreshSecretName: auth-jwt-secret
+      refreshExpirationInMs: -1
+    kafka:
+      bootstrapServers: my-kafka.otus.svc.cluster.local:9092
+resources:
+  requests:
+    cpu: "100m"
+    memory: "256Mi"
+  limits:
+    cpu: "1000m"
+    memory: "1024Mi"

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/auth-service-api/auth-shared/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/inventory-service/inventory-service-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/inventory-service/inventory-service-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/inventory-service/product-service-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/lib-ctx/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/lib-exception/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/lib-idempotency/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/lib-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/lib-redis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/notification-service/notification-service-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/notification-service/notification-service-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/payment-service/payment-service-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/payment-service/payment-service-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/product-service/product-service-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/lib/product-service/product-service-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/auth-gateway/auth-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/auth-service/auth-service-db/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/auth-service/auth-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/inventory-service/inventory-service-db/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/inventory-service/inventory-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/notification-service/notification-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/order-service/order-service-db/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/order-service/order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/payment-service/payment-service-db/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/payment-service/payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/product-service/product-service-db/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ms/product-service/product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/db-parent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/db-parent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/gw-parent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/gw-parent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/lib-parent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/lib-parent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/ms-parent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/ms-parent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent-pom/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

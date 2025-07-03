@@ -1,0 +1,56 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: menu-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/otus
+    schema: menu
+    username: user
+    password: password
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    url: jdbc:postgresql://localhost:5432/otus
+    user: user
+    password: password
+    locations:
+      - classpath:db
+    schemas:
+      - menu
+
+webclient:
+  inventoryService:
+    url: "http://localhost:8083"
+
+db:
+  url:
+  username:
+  password:
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus, health, metrics
+  metrics:
+    enable:
+      timed: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+logging:
+  level:
+    ru.otus: DEBUG
