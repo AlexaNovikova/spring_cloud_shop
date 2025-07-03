@@ -55,7 +55,6 @@ public class OrderController {
         return service.getStatus(id, shopUser);
     }
 
-    //todo claims roles
     @PostMapping("/status/{id}")
     public OrderResponseDto setStatus(@UserContext ShopUser shopUser,
                                       @PathVariable Integer id,
