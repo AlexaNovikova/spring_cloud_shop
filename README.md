@@ -135,11 +135,24 @@ helm upgrade --install kafka-exporter prometheus-community/prometheus-kafka-expo
 - Склад (Inventory)
 - Оплата (Payment)
 
+## Диаграммы классов (пользователи и роли)
 
 ![Client Classes](reedme.asserts/UserClass.png)
+
+## Диаграммы классов (продукты и категории)
+
 ![Product Classes](reedme.asserts/Product.png)
+
+## Диаграммы классов (корзина, товар, заказ)
+
 ![Order and Card Classes](reedme.asserts/Card.png)
+
+## Диаграммы классов (аккаунт и платеж)
+
 ![Payment and Account Classes](reedme.asserts/Account.png)
+
+## Диаграммы классов (склад и товары)
+
 ![Inventory Classes](reedme.asserts/InventoryClasses.png)
 
 Сервисы:
@@ -151,6 +164,159 @@ helm upgrade --install kafka-exporter prometheus-community/prometheus-kafka-expo
 - PaymentService (оплата заказа)
 - DeliveryService (передача заказа в службу доставки) //todo
 
+### Системные действия в виде API
+
+**auth-service**
+- создание клиента: POST /api/v1/register {RegRequest dto}
+- получение клиента по id: GET /api/v1/user/{id}
+
+**product_service**
+- просмотр списка товаров: GET /api/v1/product
+- получение информации о товаре по id: GET /api/v1/product/{id}
+
+**order-service**
+- получение корзины по id: GET /api/v1/order/cart {shopUser}
+- добавление продукта в корзину: POST /api/v1/order/cart/add {AddItemRequestDto dto}
+
+
+- получение статуса заказа по id: GET /api/v1/order/status/{id}
+- создание заказа: POST /api/v1/order/cart/submit { shopUser }
+- изменение заказа: PUT /api/v1/order/status/{id} { shopUser, orderId, status }
+- отмена заказа: DELETE /api/v1/order/{id}
+
+
+**payment-service**
+- пополнение баланса: POST /api/v1/account/fiil-up {shopUser, fillUpRequestDto}
+
+**inventory-service**
+- передача данных о заказе на склад: POST /api/v1/reserve {oder}
+
+**delivery-service**
+- передача заказа в сервис доставки: POST /api/v1/delivery {order}
+
+**notification-service**
+- отправка письма: POST /api/internal/notification {emailRequestDto}
+
+
+### Описание сервисов
+
+----------------------
+
+**Название**: auth-service  
+**Описание**: Сервис для хранения информации о клиенте, регистрации клиента, аутентификации и авторизации клиента,
+генерации, валидации токена.
+При регистрации киента отправляет сообщение в Kafka для создания аккаунта клиента
+**Запросы**:
+- получение клиента по id: GET /api/v1/user/{id}
+- аутентификация клиента : POST auth/login {authRequestDto :{login, password}}
+
+**Команды**:
+- создание клиента: POST /api/v1/register {regRequestDto}
+
+**События**:
+- событие о необходимости создать аккаунт пользователя: EVENT {CREATE_ACCOUNT, accountModel}
+
+**Зависимости**: 
+
+**Вопросы**: -
+
+----------------------
+
+**Название**: product-service  
+**Описание**: Сервис для поиска товаров и хранения информации о них.
+
+**Запросы**:
+- просмотр списка товаров: GET /api/v1/product
+- получение информации о товаре по id: GET /api/v1/product/{id}
+
+**Команды**:
+- добавить продукт: POST /api/v1/product {productDto}
+- изменить продукт: PUT /api/v1/product {productDto}
+- удалить продукт:DELETE /api/v1/product/{id}
+
+**Вопросы**:
+
+----------------------
+**Название**: order-service  
+**Описание**: Сервис для работы с корзиной и оформлением заказа.
+После оформления заказа отправляет в Kafka сообщение о необходимости произвести списание денег с аккаунта и резервирование товара на складе
+**Запросы**:
+- получение корзины по id: GET /api/v1/order/cart {shopUser}
+- получение статуса заказа по id: GET /api/v1/order/status/{id}
+
+**Команды**:
+- добавление продукта в корзину: POST /api/v1/order/cart/add {AddItemRequestDto dto}
+- создание заказа: POST /api/v1/order/cart/submit { shopUser }
+- изменение заказа: PUT /api/v1/order/status/{id} { shopUser, orderId, status }
+- отмена заказа: DELETE /api/v1/order/{id}
+
+**События**:
+- событие о необходимости зарезервивовать товар на складе: EVENT {ORDER_RESERVE_PRODUCTS, reserveModel}
+- событие о необходимости списать деньги с аккаунта: EVENT {ORDER_PAYMENT_PROCESS, paymentModel}
+- событие о необходимости отправить уведомление клиенту о том, что статус заказа изменился: EVENT {NOTIFICATION_SEND, notificationModel}
+
+
+**Зависимости**:
+- получение цены товара от product-service
+- получение актуального количетсва товара на складе notification-service
+- событие от payment-service об оплате заказа: EVENT {PAYMENT_CONFIRMATION, paymentConfirmModel}
+- событие от inventiry-service об успешном резервировании товара: EVENT {ORDER_RESERVE_CONFIRMATON, reserveConfirmationModel}
+
+----------------------
+**Название**: payment-service  
+**Описание**: Сервис оплаты. Отправляет событие об статусе оплаты для заказа.  
+**Запросы**:  
+**Команды**:
+- пополнение баланса: POST /api/v1/account/fiil-up {shopUser, fillUpRequestDto}
+
+**События**:
+- отправляет событие об успешной или нейспешной оплате заказа: EVENT {ORDER_CONFIRMATION_TOPIC, model}
+
+**Зависимости**:
+- событие от order-service о необходимости списать деньги со счета при оформлении заказа: EVENT {ORDER_PAYMENT_PROCESS, paymentModel}
+- получение от auth-service события о необходимости создать аккаунт клиента при его регистрации: EVENT {CREATE_ACCOUNT, accountModel}
+
+**Вопросы**:
+
+----------------------
+**Название**: inventory-service  
+**Описание**: Сервис склада. Хранит информацию о товарах и их количестве.
+
+**Запросы**: -  
+**Команды**:
+- передача данных о заказе на склад: POST /api/v1/reserve {oder}
+
+**События**:
+- событие о успешном резерве товаров на складе : EVENT {ORDER_RESERVE_CONFIRMATON, reserveConfirmationModel}
+
+
+**Зависимости**: -  
+**Вопросы**: -
+----------------------
+
+**Название**: delivery-service  
+**Описание**: Сервис доставки заказов клиентам.  
+**Запросы**: -  
+**Команды**:
+- передача заказа в сервис доставки: POST /api/v1/delivery {order}
+
+**События**: -  
+**Зависимости**: -  
+**Вопросы**: -
+----------------------
+
+**Название**:  notification-service  
+**Описание**: Сервис отправки уведомлений клиентам.  
+**Запросы**: -  
+**Команды**: -  
+**События**: -  
+**Зависимости**:
+- событие от order-service для отправки уведомления клиенту о заказе: EVENT {NOTIFICATION_SEND, notificationModel}
+- событие для payment-service отправки уведомления клиенту об оплате: EVENT {NOTIFICATION_SEND, notificationModel}
+
+
+**Вопросы**: -
+
 
 ### Функциональная модель
 
@@ -159,7 +325,7 @@ helm upgrade --install kafka-exporter prometheus-community/prometheus-kafka-expo
 
 ### Схема взаимодействия сервисов
 
-![services](reedme.asserts/services.png)
+![services](reedme.asserts/ServicesSchema.png)
 
 ### Реализация
 
