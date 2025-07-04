@@ -6,25 +6,25 @@
 ### Собрать и запушить docker образы приложений
 ```
 docker image build --platform linux/amd64 -t alexadubinina87/auth-gateway:12 ./ms/auth-gateway/auth-gateway
-docker push alexadubinina87/auth-gateway:12
+docker push alexadubinina87/auth-gateway:13
 
-docker image build --platform linux/amd64 -t alexadubinina87/auth-service:11 ./ms/auth-service/auth-service
-docker push alexadubinina87/auth-service:11
+docker image build --platform linux/amd64 -t alexadubinina87/auth-service:12 ./ms/auth-service/auth-service
+docker push alexadubinina87/auth-service:12
 
-docker image build --platform linux/amd64 -t alexadubinina87/inventory-service:11 ./ms/inventory-service/inventory-service
-docker push alexadubinina87/inventory-service:11
+docker image build --platform linux/amd64 -t alexadubinina87/inventory-service:12 ./ms/inventory-service/inventory-service
+docker push alexadubinina87/inventory-service:12
 
-docker image build --platform linux/amd64 -t alexadubinina87/product-service:11 ./ms/product-service/product-service
-docker push alexadubinina87/product-service:11
+docker image build --platform linux/amd64 -t alexadubinina87/product-service:12 ./ms/product-service/product-service
+docker push alexadubinina87/product-service:12
 
-docker image build --platform linux/amd64 -t alexadubinina87/notification-service:11 ./ms/notification-service/notification-service
-docker push alexadubinina87/notification-service:11
+docker image build --platform linux/amd64 -t alexadubinina87/notification-service:12 ./ms/notification-service/notification-service
+docker push alexadubinina87/notification-service:12
 
-docker image build --platform linux/amd64 -t alexadubinina87/order-service:11 ./ms/order-service/order-service
-docker push alexadubinina87/order-service:11
+docker image build --platform linux/amd64 -t alexadubinina87/order-service:12 ./ms/order-service/order-service
+docker push alexadubinina87/order-service:12
 
-docker image build --platform linux/amd64 -t alexadubinina87/payment-service:11 ./ms/payment-service/payment-service
-docker push alexadubinina87/payment-service:11
+docker image build --platform linux/amd64 -t alexadubinina87/payment-service:12 ./ms/payment-service/payment-service
+docker push alexadubinina87/payment-service:12
 ```
 ### Установить ingress
 ```

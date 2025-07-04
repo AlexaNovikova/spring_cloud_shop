@@ -1,7 +1,7 @@
 postgresql:
   database: otus
-  username: otus_user
-  password: NVB1c6hB6vF7
+  username: user
+  password: password
   image: postgres:15.7
   service:
     type: NodePort

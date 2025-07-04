@@ -3,19 +3,25 @@ server:
 
 spring:
   application:
-    name: menu-service
+    name: product-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/otus
-    schema: menu
-    username: user
-    password: password
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+#    url: jdbc:postgresql://localhost:5432/otus
+#    schema: product
+#    username: user
+#    password: password
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   flyway:
-    url: jdbc:postgresql://localhost:5432/otus
-    user: user
-    password: password
+    url: ${db.url}
+    user: ${db.username}
+    password: ${db.password}
+#    url: jdbc:postgresql://localhost:5432/otus
+#    user: user
+#    password: password
     locations:
       - classpath:db
     schemas:

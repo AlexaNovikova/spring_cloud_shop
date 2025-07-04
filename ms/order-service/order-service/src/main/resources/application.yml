@@ -5,10 +5,13 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/otus
-    schema: order
-    username: user
-    password: password
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+#    url: jdbc:postgresql://localhost:5432/otus
+#    schema: order
+#    username: user
+#    password: password
   jpa:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -24,9 +27,12 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
   flyway:
-    url: jdbc:postgresql://localhost:5432/otus
-    user: user
-    password: password
+    url: ${db.url}
+    user: ${db.username}
+    password: ${db.password}
+#    url: jdbc:postgresql://localhost:5432/otus
+#    user: user
+#    password: password
     locations:
       - classpath:db
     schemas:

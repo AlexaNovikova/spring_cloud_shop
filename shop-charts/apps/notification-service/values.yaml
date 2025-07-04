@@ -13,7 +13,7 @@ notification_service:
       port: 465
       protocol: smtp
       secretName: notification-service-email-secret
-      username: alexadubinina87@mail.ru
+      username: username
       password: password
 resources:
   requests:
