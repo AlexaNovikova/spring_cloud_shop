@@ -44,13 +44,13 @@ public class IdempotenceKeyService {
             throw new IdempotenceException("idempotence key missing");
         }
 
-        if (!redisService.isExists(token)) {
-            throw new IdempotenceException("idempotence key missing");
-        }
-
-        if (!redisService.delete(token)) {
+        if (redisService.isExists(token)) {
             throw new IdempotenceException("duplicated request");
         }
+        else   {
+            redisService.expire(token, token, 1000L);
+        }
+
 
         return true;
     }
