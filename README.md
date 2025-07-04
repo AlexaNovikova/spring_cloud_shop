@@ -325,7 +325,7 @@ helm upgrade --install kafka-exporter prometheus-community/prometheus-kafka-expo
 
 ### Схема взаимодействия сервисов
 
-![services](reedme.asserts/ServicesSchema.png)
+![services](reedme.asserts/MicroservicesDiagram.png)
 
 ### Реализация
 
@@ -345,10 +345,7 @@ _Для справки:
 Если транзакция завершилась неудачей, например, из-за нарушения бизнес правил, тогда сага запускает компенсирующие транзакции, которые откатывают изменения, сделанные предшествующими локальными транзакциями.  
 Оркестровка (Orchestration) — оркестратор говорит участникам, какие транзакции должны быть запущены._
 
-![scheme.png](reedme.asserts/scheme.png)
-
-![diagram.png](reedme.asserts/diagram.png)
-
+![scheme.png](reedme.asserts/saga.png)
 
 
 Идемпотентность реализована с помощью ключа идемпотентности x-request-id в рамках сервиса order-service.
